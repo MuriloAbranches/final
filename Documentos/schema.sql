@@ -1,4 +1,6 @@
-﻿--Tables
+﻿Projetp_Clinica (Murilo Abranches, Victor Chagas e Felipe Ishi) 4ºB
+
+--Tables
 CREATE TABLE ENDERECOS(
 	id integer,
 	cep integer,
@@ -78,6 +80,7 @@ CREATE TABLE CONSULTAS(
     especialidade int,
     medico bigint,
     data_hora_consulta integer,
+    flag_ativo integer,
     CONSTRAINT pk_consultas PRIMARY KEY (id),
     CONSTRAINT fk_paciente_consultas FOREIGN KEY (paciente) REFERENCES PACIENTES(id),
     CONSTRAINT fk_especialidade_consultas FOREIGN KEY (especialidade) REFERENCES ESPECIALIDADES(id),
@@ -85,7 +88,16 @@ CREATE TABLE CONSULTAS(
     CONSTRAINT fk_data_hora_consulta_consultas FOREIGN KEY (data_hora_consulta) REFERENCES DATA_HORA_CONSULTAS(id)
 );
 
-
+CREATE TABLE USUARIOS(
+	id integer,
+	login varchar ,
+	senha varchar ,
+	perfil varchar,
+	flag_ativo integer,
+	paciente integer,
+	CONSTRAINT pk_usuarios PRIMARY KEY (id),
+	CONSTRAINT fk_usuarios_paciente FOREIGN KEY (paciente) REFERENCES PACIENTES (id)
+);
 
 
 INSERT INTO DATA_HORA_CONSULTAS VALUES
@@ -120,6 +132,8 @@ INSERT INTO ESPECIALIDADES VALUES
 (nextval('especialidades_seq'),'Ortopedia',1),
 (nextval('especialidades_seq'),'Geriatria',1);
 
+insert into usuarios values (nextval('usuarios_seq'),'admin','123','ADMINISTRADOR',1);
+insert into usuarios values (nextval('usuarios_seq'),'teste','123','COMUM',1,1);
 
 --Sequences
 CREATE SEQUENCE pacientes_seq;
@@ -129,6 +143,7 @@ CREATE SEQUENCE funcionarios_seq;
 CREATE SEQUENCE especialidades_seq;
 CREATE SEQUENCE consultas_seq;
 CREATE SEQUENCE data_hora_consultas_seq;
+CREATE SEQUENCE usuarios_seq;
 
 --Selects
 SELECT * FROM PACIENTES;
@@ -138,13 +153,5 @@ SELECT * FROM ESPECIALIDADES;
 SELECT * FROM FUNCIONARIOS;
 SELECT * FROM CONSULTAS;
 SELECT * FROM MEDICOS;
-SELECT * FROM DATA_HORA_CONSULTAS
-
---Drop
-DROP TABLE CONTATOS;
-DROP TABLE ENDERECOS;
-DROP TABLE PACIENTES;
-DROP TABLE FUNCIONARIOS;
-DROP TABLE ESPECIALIDADES;
-DROP TABLE CONSULTAS;
-DROP TABLE MEDICOS;
+SELECT * FROM DATA_HORA_CONSULTAS;
+SELECT * FROM USUARIOS;
